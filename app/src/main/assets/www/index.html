@@ -41,7 +41,14 @@
         </div>
         <div class="api-row">
           <label class="field full">GEMINI API KEY <input id="apiKey" type="password" placeholder="Tempel API key Gemini di sini" autocomplete="off"></label>
-          <p class="hint">Key dipakai langsung dari browser dan tidak disimpan ke server. Jangan bagikan key kepada siapa pun.</p>
+          <p class="hint">Gemini key digunakan untuk membuat rancangan. Jangan bagikan key atau masukkan ke repositori publik.</p>
+          <label class="field full" style="margin-top:14px">RESEARCH BACKEND URL
+            <input id="researchEndpoint" type="url" placeholder="https://nama-proyek.vercel.app/api/research" autocomplete="off">
+          </label>
+          <p class="hint">Backend ini menghubungkan Tavily untuk riset desain dan animasi. API key disimpan sebagai Environment Variable di backend, bukan di aplikasi. Pexafy tidak diaktifkan karena ketentuan layanannya menetapkan usia minimum 16 tahun.</p>
+          <div class="research-status" id="researchStatus">Riset online belum dijalankan.</div>
+          <div class="research-status" id="aiTimer">Waktu AI: 00:00</div>
+          <div class="research-gallery" id="researchGallery"></div>
         </div>
         <div class="actions"><button class="btn secondary" id="sampleBtn">Gunakan contoh cerita</button><button class="btn primary" id="planBtn">Buat karakter & storyboard <span>→</span></button></div>
         <div class="notice" id="notice1">Butuh koneksi internet dan Gemini API key untuk membuat konsep dengan AI. Contoh cerita bisa dipakai untuk mencoba studio tanpa API.</div>
@@ -57,8 +64,8 @@
       </section>
 
       <section class="panel" id="panel3">
-        <div class="section-heading"><div><div class="eyebrow">SVG ANIMATION ENGINE</div><h2>Produksi adegan</h2><p>Setiap adegan dibuat sebagai ilustrasi SVG dan disusun menjadi urutan animasi.</p></div><span class="step-count">03 / 04</span></div>
-        <div class="production-layout"><div class="production-stage" id="productionStage"><div class="empty-state"><div class="loader-ring"></div><h3>Menyiapkan studio…</h3><p>Memproses storyboard menjadi adegan SVG.</p></div></div><div class="production-info"><div class="progress-track"><span id="progressBar"></span></div><div class="progress-label"><b id="progressText">Menunggu produksi</b><span id="progressPercent">0%</span></div><div id="productionLog" class="log"></div><button class="btn primary wide" id="toPreviewBtn" disabled>Lihat preview akhir →</button></div></div>
+        <div class="section-heading"><div><div class="eyebrow">SVG ANIMATION ENGINE</div><h2>Produksi adegan</h2><p>Setiap adegan dirender sebagai rangkaian frame animasi. Waktu proses ditampilkan secara langsung.</p></div><span class="step-count">03 / 04</span></div>
+        <div class="production-layout"><div class="production-stage" id="productionStage"><div class="empty-state"><div class="loader-ring"></div><h3>Menyiapkan studio…</h3><p>Memproses storyboard menjadi adegan SVG.</p></div></div><div class="production-info"><div class="progress-track"><span id="progressBar"></span></div><div class="progress-label"><b id="progressText">Menunggu produksi</b><span id="progressPercent">0%</span></div><div class="elapsed-time">WAKTU BERJALAN <b id="elapsedTime">00:00</b></div><div id="productionLog" class="log"></div><button class="btn primary wide" id="toPreviewBtn" disabled>Lihat preview akhir →</button></div></div>
       </section>
 
       <section class="panel" id="panel4">
@@ -68,7 +75,7 @@
       <footer>ANIM AI <span>·</span> SVG-BASED 2D ANIMATION <span>·</span> LOCAL RENDER</footer>
     </main>
   </div>
-  <dialog id="helpDialog"><div class="dialog-inner"><button class="close" id="closeHelp">×</button><div class="eyebrow">QUICK GUIDE</div><h2>Cara menggunakan ANIM AI</h2><ol><li>Tulis ide cerita, lalu masukkan Gemini API key untuk membuat storyboard.</li><li>Periksa dan edit karakter serta adegan. Centang persetujuan.</li><li>Produksi membuat visual SVG untuk tiap adegan.</li><li>Putar preview, lalu ekspor MP4 tanpa audio.</li></ol><p>Catatan: API key digunakan di browser. Untuk aplikasi publik, pindahkan pemanggilan API ke backend agar key tidak terekspos.</p></div></dialog>
+  <dialog id="helpDialog"><div class="dialog-inner"><button class="close" id="closeHelp">×</button><div class="eyebrow">QUICK GUIDE</div><h2>Cara menggunakan ANIM AI</h2><ol><li>Tulis ide cerita dan masukkan Gemini API key. Untuk riset online, deploy backend lalu isi URL-nya.</li><li>Periksa dan edit karakter serta adegan. Centang persetujuan.</li><li>Produksi membuat visual SVG untuk tiap adegan.</li><li>Putar preview, lalu ekspor MP4 tanpa audio.</li></ol><p>Catatan: Gemini key masih dimasukkan langsung di aplikasi. Tavily memakai backend proxy agar key riset tidak terekspos. Pexafy tidak diaktifkan. Jangan membagikan APK yang berisi key pribadi.</p></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>
