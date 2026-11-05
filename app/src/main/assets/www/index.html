@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#11110f">
+  <title>ANIM AI — Animation Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">A</span><span>ANIM<span class="muted"> AI</span><small>ANIMATION STUDIO</small></span></div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active"><span>▧</span> Studio</button>
+      <button class="nav-item" id="newProjectBtn"><span>＋</span> Proyek baru</button>
+      <div class="side-bottom"><span class="status-dot"></span> SVG ENGINE READY</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">CREATIVE WORKSPACE / 01</div><h1>Animation Studio</h1></div>
+        <div class="top-actions"><span class="local-pill">● BROWSER WORKSPACE</span><button class="icon-btn" id="helpBtn" title="Petunjuk">?</button></div>
+      </header>
+
+      <section class="stepper" aria-label="Tahapan proyek">
+        <div class="step active" data-step="1"><b>01</b><span>Konsep</span></div><i></i>
+        <div class="step" data-step="2"><b>02</b><span>Karakter & cerita</span></div><i></i>
+        <div class="step" data-step="3"><b>03</b><span>Produksi</span></div><i></i>
+        <div class="step" data-step="4"><b>04</b><span>Preview & ekspor</span></div>
+      </section>
+
+      <section class="panel active" id="panel1">
+        <div class="section-heading"><div><div class="eyebrow">START HERE</div><h2>Apa yang ingin kamu ceritakan?</h2><p>Tulis ide singkat. Gemini akan menyusun karakter dan storyboard untuk kamu tinjau.</p></div><span class="step-count">01 / 04</span></div>
+        <div class="form-grid">
+          <label class="field full">IDE CERITA<textarea id="storyPrompt" rows="4">Seekor kelinci kecil berpetualang di hutan ajaib. Ia menemukan jamur bercahaya, bertemu kupu-kupu biru, lalu menemukan pohon tua yang menyimpan cahaya bintang.</textarea></label>
+          <label class="field">DURASI<select id="duration"><option value="30">30 detik</option><option value="60" selected>60 detik</option></select></label>
+          <label class="field">ORIENTASI<select id="orientation"><option value="portrait" selected>Portrait · 9:16</option><option value="landscape">Landscape · 16:9</option></select></label>
+          <label class="field">RESOLUSI<select id="resolution"><option value="720" selected>720p · HD</option></select></label>
+          <label class="field">GAYA VISUAL<select id="visualStyle"><option value="2D cartoon, soft cinematic lighting, clean vector shapes">Kartun 2D sinematik</option><option value="cute flat vector cartoon, pastel palette">Flat vector pastel</option><option value="storybook illustration, textured paper, warm colors">Ilustrasi buku cerita</option><option value="bold colorful 2D animation, expressive shapes">Kartun warna cerah</option></select></label>
+        </div>
+        <div class="api-row">
+          <label class="field full">GEMINI API KEY <input id="apiKey" type="password" placeholder="Tempel API key Gemini di sini" autocomplete="off"></label>
+          <p class="hint">Gemini key digunakan untuk membuat rancangan. Jangan bagikan key atau masukkan ke repositori publik.</p>
+          <label class="field full" style="margin-top:14px">RESEARCH BACKEND URL
+            <input id="researchEndpoint" type="url" placeholder="https://nama-proyek.vercel.app/api/research" autocomplete="off">
+          </label>
+          <p class="hint">Backend ini menghubungkan Tavily (riset desain/animasi) dan Pexafy (referensi foto). API key Tavily dan Pexafy disimpan sebagai Environment Variables di backend, bukan di aplikasi.</p>
+          <div class="research-status" id="researchStatus">Riset online belum dijalankan.</div>
+          <div class="research-gallery" id="researchGallery"></div>
+        </div>
+        <div class="actions"><button class="btn secondary" id="sampleBtn">Gunakan contoh cerita</button><button class="btn primary" id="planBtn">Buat karakter & storyboard <span>→</span></button></div>
+        <div class="notice" id="notice1">Butuh koneksi internet dan Gemini API key untuk membuat konsep dengan AI. Contoh cerita bisa dipakai untuk mencoba studio tanpa API.</div>
+      </section>
+
+      <section class="panel" id="panel2">
+        <div class="section-heading"><div><div class="eyebrow">REVIEW BEFORE PRODUCTION</div><h2>Periksa karakter dan storyboard</h2><p>Produksi hanya dimulai setelah kamu menyetujui rancangan ini.</p></div><span class="step-count">02 / 04</span></div>
+        <div class="review-grid">
+          <article class="subpanel"><div class="subhead"><h3>Karakter utama</h3><span class="tag">SVG CHARACTER</span></div><div id="characterPreview" class="character-preview"></div><label class="field">NAMA KARAKTER<input id="characterName" value="Miko"></label><label class="field">DESKRIPSI KARAKTER<textarea id="characterDescription" rows="3">Kelinci kecil berbulu krem, telinga panjang, syal hijau, mata besar dan ekspresif.</textarea></label></article>
+          <article class="subpanel"><div class="subhead"><h3>Storyboard</h3><span class="tag" id="sceneCount">6 ADEGAN</span></div><div id="storyboardList" class="storyboard-list"></div></article>
+        </div>
+        <div class="approval-row"><label class="check"><input type="checkbox" id="approveCheck"> Saya menyetujui karakter dan storyboard untuk diproduksi.</label><div class="actions"><button class="btn secondary" id="backToConcept">Kembali</button><button class="btn primary" id="produceBtn" disabled>Setujui & produksi →</button></div></div>
+      </section>
+
+      <section class="panel" id="panel3">
+        <div class="section-heading"><div><div class="eyebrow">SVG ANIMATION ENGINE</div><h2>Produksi adegan</h2><p>Setiap adegan dirender sebagai rangkaian frame animasi. Waktu proses ditampilkan secara langsung.</p></div><span class="step-count">03 / 04</span></div>
+        <div class="production-layout"><div class="production-stage" id="productionStage"><div class="empty-state"><div class="loader-ring"></div><h3>Menyiapkan studio…</h3><p>Memproses storyboard menjadi adegan SVG.</p></div></div><div class="production-info"><div class="progress-track"><span id="progressBar"></span></div><div class="progress-label"><b id="progressText">Menunggu produksi</b><span id="progressPercent">0%</span></div><div class="elapsed-time">WAKTU BERJALAN <b id="elapsedTime">00:00</b></div><div id="productionLog" class="log"></div><button class="btn primary wide" id="toPreviewBtn" disabled>Lihat preview akhir →</button></div></div>
+      </section>
+
+      <section class="panel" id="panel4">
+        <div class="section-heading"><div><div class="eyebrow">FINAL REVIEW</div><h2>Preview animasi</h2><p>Periksa urutan adegan sebelum membuat file video.</p></div><span class="step-count">04 / 04</span></div>
+        <div class="final-layout"><div class="preview-wrap"><div id="finalPreview" class="final-preview"></div><div class="player-controls"><button class="play-btn" id="playPreview">▶</button><input type="range" id="previewSeek" min="0" max="100" value="0"><span id="previewTime">00:00 / 01:00</span></div></div><div class="export-card"><h3>Ekspor video</h3><div class="export-spec"><div><span>FORMAT</span><b>MP4 · H.264</b></div><div><span>RESOLUSI</span><b id="exportResolution">720 × 1280</b></div><div><span>AUDIO</span><b>Tanpa suara</b></div><div><span>DURASI</span><b id="exportDuration">60 detik</b></div></div><p class="hint">Konversi MP4 berjalan di browser menggunakan FFmpeg WebAssembly. Proses ini membutuhkan unduhan komponen sekitar 30 MB dan dapat berat di HP.</p><button class="btn primary wide" id="exportBtn">Ekspor MP4 ↓</button><div id="exportStatus" class="export-status"></div><button class="btn secondary wide" id="restartBtn">Buat proyek baru</button></div></div>
+      </section>
+      <footer>ANIM AI <span>·</span> SVG-BASED 2D ANIMATION <span>·</span> LOCAL RENDER</footer>
+    </main>
+  </div>
+  <dialog id="helpDialog"><div class="dialog-inner"><button class="close" id="closeHelp">×</button><div class="eyebrow">QUICK GUIDE</div><h2>Cara menggunakan ANIM AI</h2><ol><li>Tulis ide cerita dan masukkan Gemini API key. Untuk riset online, deploy backend lalu isi URL-nya.</li><li>Periksa dan edit karakter serta adegan. Centang persetujuan.</li><li>Produksi membuat visual SVG untuk tiap adegan.</li><li>Putar preview, lalu ekspor MP4 tanpa audio.</li></ol><p>Catatan: Gemini key masih dimasukkan langsung di aplikasi. Tavily dan Pexafy memakai backend proxy agar key riset tidak terekspos. Jangan membagikan APK yang berisi key pribadi.</p></div></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
